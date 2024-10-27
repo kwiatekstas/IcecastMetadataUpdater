@@ -15,3 +15,5 @@ Example: ```icecastUrl = "http://127.0.0.1:8000/admin/metadata.xsl"```
 
 ```mount``` under ```icecastParams``` is the mountpoint that your station is streaming on. <br />
 
+
+This script works best with stations hosted on [AzuraCast](https://github.com/AzuraCast/AzuraCast). Other station hosting suites might require some tweaks to work.
