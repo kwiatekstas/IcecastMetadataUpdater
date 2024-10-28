@@ -15,5 +15,11 @@ Example: ```icecastUrl = "http://127.0.0.1:8000/admin/metadata.xsl"```
 
 ```mount``` under ```icecastParams``` is the mountpoint that your station is streaming on. <br />
 
-
 This script works best with stations hosted on [AzuraCast](https://github.com/AzuraCast/AzuraCast). Other station hosting suites might require some tweaks to work.
+
+## How to use
+By default, ENTER will add the ```stationName``` variable into the already existing metadata in this format: <br />
+```stationName: Artist - Title``` <br /> <br />
+Typing ```.n``` will show the next song that'll be played in this format: <br />
+```Next up on stationName: Artist - Title``` <br /> <br />
+Any other input will replace the existing metadata with the entered text. <br />
