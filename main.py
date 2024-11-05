@@ -3,7 +3,6 @@ from requests.auth import HTTPBasicAuth as auth
 
 api = "http://127.0.0.1/api/nowPlaying"
 # Enter your API url here
-# Enter your API url here
 response = requests.get(api)
 responseData = response.json()
 print("Response from", api)
