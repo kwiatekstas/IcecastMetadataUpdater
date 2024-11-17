@@ -6,7 +6,7 @@ You'll need the requests and yaml libraries to run this. To install, run ```pip 
 
 ## How to set up
 <em>Open the config.yml file in a text editor.</em><br />
-<em>The config.yml file must be in the same directory, as either the source or the executable!</br>
+<em>The config.yml file must be in the same directory, as either the source or the executable!</em><br />
 
 ```api``` is the address where your web radio station outputs its metadata. <br />Example: ```api = "http://127.0.0.1/api/nowPlaying"```<br />
 Your radio station's metadata should be in JSON format. <br />
