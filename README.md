@@ -5,7 +5,8 @@ Python application for updating the metadata of a web radio station running on I
 You'll need the requests and yaml libraries to run this. To install, run ```pip install requests``` and ```pip install pyyaml```.<br />
 
 ## How to set up
-<em>Open the config.yml file in a text editor.</em>
+<em>Open the config.yml file in a text editor.</em><br />
+<em>The config.yml file must be in the same directory, as either the source or the executable!</br>
 
 ```api``` is the address where your web radio station outputs its metadata. <br />Example: ```api = "http://127.0.0.1/api/nowPlaying"```<br />
 Your radio station's metadata should be in JSON format. <br />

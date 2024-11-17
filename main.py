@@ -2,6 +2,10 @@ import requests
 from requests.auth import HTTPBasicAuth as auth
 import yaml
 
+print("IcecastMetadataUpdater v1.0")
+print("https://github.com/kwiatekstas/IcecastMetadataUpdater")
+print()
+
 with open("config.yml", "r") as configFile:
     config = yaml.safe_load(configFile)
 
