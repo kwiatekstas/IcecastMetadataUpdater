@@ -1,13 +1,23 @@
 import requests
 from requests.auth import HTTPBasicAuth as auth
+import yaml
 
-api = "http://127.0.0.1/api/nowPlaying"
-# Enter your API url here
+with open("config.yml", "r") as configFile:
+    config = yaml.safe_load(configFile)
+
+api = config['api']
+# To edit your API, mountpoint and credentials, open the config.yml file.
+
+print("Connecting to", api, "-", "to change this, edit config.yml")
+print()
+
 response = requests.get(api)
 responseData = response.json()
+curTime = "Not implemented yet!"
 print("Response from", api)
 print("Your server is now playing:", responseData[0]['now_playing']['song']['artist'], "-", responseData[0]['now_playing']['song']['title'])
 print("Next up:", responseData[0]['playing_next']['song']['artist'], "-", responseData[0]['playing_next']['song']['title'])
+# print("The current time is", curTime)
 print()
 stationName = responseData[0]['station']['name']
 artist = responseData[0]['now_playing']['song']['artist']
@@ -25,18 +35,10 @@ elif newResponse == ".n":
 else:
     newResponse = newResponse
 
-
-
-icecastUrl = "http://127.0.0.1:8000/admin/metadata.xsl"
-icecastUsername = "admin"
-icecastPassword = "password"
-icecastParams = {
-    'song': newResponse,
-    'mount': '/mount',
-    'mode': 'updinfo',
-    'charset': 'UTF-8'
-}
-# Adjust your Icecast URL, mountpoint, charset and credentials here
+icecastUrl = config['icecastUrl']
+icecastUsername = config['icecastUsername']
+icecastPassword = config['icecastPassword']
+icecastParams = config['icecastParams']
 
 updater = requests.get(icecastUrl, params=icecastParams, auth=auth(icecastUsername, icecastPassword))
 if response.status_code == 200:

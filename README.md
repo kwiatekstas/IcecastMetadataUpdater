@@ -2,9 +2,11 @@
 Python application for updating the metadata of a web radio station running on Icecast.
 
 ## Dependencies
-You'll need the requests library to run this. To install, run ```pip install requests```.<br />
+You'll need the requests and yaml libraries to run this. To install, run ```pip install requests``` and ```pip install pyyaml```.<br />
 
 ## How to set up
+<em>Open the config.yml file in a text editor.</em>
+
 ```api``` is the address where your web radio station outputs its metadata. <br />Example: ```api = "http://127.0.0.1/api/nowPlaying"```<br />
 Your radio station's metadata should be in JSON format. <br />
 
