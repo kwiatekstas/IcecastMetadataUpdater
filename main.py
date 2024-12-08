@@ -1,6 +1,7 @@
 import requests
-from requests.auth import HTTPBasicAuth as auth
 import yaml
+from time import gmtime, strftime
+from requests.auth import HTTPBasicAuth as auth
 
 print("IcecastMetadataUpdater v1.0")
 print("https://github.com/kwiatekstas/IcecastMetadataUpdater")
@@ -10,18 +11,23 @@ with open("config.yml", "r") as configFile:
     config = yaml.safe_load(configFile)
 
 api = config['api']
-# To edit your API, mountpoint and credentials, open the config.yml file.
 
 print("Connecting to", api, "-", "to change this, edit config.yml")
 print()
+try:
+    response = requests.get(api, timeout=5)
+except requests.exceptions.Timeout:
+    print("Request to", api, "timed out.")
+    print("Check your connection and your server, then try again.")
+    exit()
 
-response = requests.get(api)
 responseData = response.json()
-curTime = "Not implemented yet!"
+curTime = strftime("%H:%M:%S", gmtime())
+curDate = strftime("%d/%m/%Y", gmtime())
 print("Response from", api)
 print("Your server is now playing:", responseData[0]['now_playing']['song']['artist'], "-", responseData[0]['now_playing']['song']['title'])
 print("Next up:", responseData[0]['playing_next']['song']['artist'], "-", responseData[0]['playing_next']['song']['title'])
-# print("The current time is", curTime)
+print("The current time is", curTime, "on", curDate)
 print()
 stationName = responseData[0]['station']['name']
 artist = responseData[0]['now_playing']['song']['artist']
