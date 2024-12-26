@@ -24,9 +24,12 @@ except requests.exceptions.Timeout:
 responseData = response.json()
 curTime = strftime("%H:%M:%S", gmtime())
 curDate = strftime("%d/%m/%Y", gmtime())
+cuedApi = responseData[0]['playing_next']['played_at']
+cuedTime = strftime("%H:%M:%S", gmtime(cuedApi))
 print("Response from", api)
-print("Your server is now playing:", responseData[0]['now_playing']['song']['artist'], "-", responseData[0]['now_playing']['song']['title'])
-print("Next up:", responseData[0]['playing_next']['song']['artist'], "-", responseData[0]['playing_next']['song']['title'])
+print("Now playing:", responseData[0]['now_playing']['song']['title'], "by", responseData[0]['now_playing']['song']['artist'])
+print("Next up:", responseData[0]['playing_next']['song']['title'], "by", responseData[0]['playing_next']['song']['artist'], "playing at", cuedTime)
+print("There are currently", responseData[0]['listeners']['current'], "listeners.")
 print("The current time is", curTime, "on", curDate)
 print()
 stationName = responseData[0]['station']['name']
@@ -41,7 +44,10 @@ if newResponse == "":
     newResponse = f"{stationName}: {artist} - {title}"
 elif newResponse == ".n":
     newResponse = f"Next up on {stationName}: {nextArtist} - {nextTitle}"
-    # Change this text to your liking.
+#   Change this text to your liking, or add another command.
+#   Syntax:
+#       elif newResponse == "your command":
+#           newResponse = "your message"
 else:
     newResponse = newResponse
 
