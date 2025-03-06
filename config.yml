@@ -1,8 +1,0 @@
-api: "localhost/api/nowplaying"
-icecastUrl: "localhost:8000/admin/metadata.xsl"
-icecastUsername: "admin"
-icecastPassword: "password"
-icecastParams:
-  mount: "/mount"
-  mode: "updinfo"
-  charset: "UTF-8"
