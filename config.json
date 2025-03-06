@@ -1,10 +1,10 @@
 {
-    "api": "http://10.33.1.4/api/nowplaying",
-    "icecastUrl": "http://10.33.1.4:8000/admin/metadata",
+    "api": "http://localhost/api/nowplaying",
+    "icecastUrl": "http://localhost/admin/metadata",
     
     "icecastAuth": {
         "username": "admin",
-        "password": "dtAnwGqc"
+        "password": "password"
     },
     
     "icecastParams": {
