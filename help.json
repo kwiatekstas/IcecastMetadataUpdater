@@ -1,0 +1,11 @@
+{
+    "commands": [
+      { "command": "(ENTER)", "description": "Send the current song as 'StationName: Artist - Song" },
+      { "command": ".n     ", "description": "Send the next song as 'Next up on StationName: Artist - Song'" },
+      { "command": ".t     ", "description": "Send the current time and date as 'StationName: It is HH:MM:SS on MMMM DD YYYY" },
+      { "command": ".skip  ", "description": "Skip to the next track. Requires an API key in config.json." },
+      { "command": ".next  ", "description": "Same as .skip"},
+      { "command": ".help  ", "description": "Show this" },
+      { "command": ".h     ", "description": "Also show this"}
+    ]
+  }

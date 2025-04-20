@@ -5,6 +5,7 @@ const readline = require('readline');
 const { format } = require('date-fns');
 
 const config = JSON.parse(fs.readFileSync(path.join(__dirname, 'config.json'), 'utf8'));
+const help = JSON.parse(fs.readFileSync(path.join(__dirname, 'help.json'), 'utf8'));
 const api = config.api;
 const icecastUrl = config.icecastUrl;
 const skipUrl = config.skipUrl;
@@ -17,6 +18,16 @@ const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
+
+function printHelp() {
+  console.log();
+  console.log("Available commmands:");
+  console.log();
+  help.commands.forEach((command) => {
+    console.log(command.command, ":", command.description);
+  });
+  console.log();
+}
 
 console.log("Connecting to", api, "- to change this, edit config.json");
 console.log();
@@ -40,19 +51,26 @@ axios.get(api)
     console.log("There are currently", apiResponse[0].listeners.current, "listeners.");
     console.log("The current time is", curTime, "on", curDate);
     console.log();
+    console.log("Type .h or .help to view a list of commands.");
+    console.log();
 
     console.log("Enter information to upload to your Icecast instance, ");
     rl.question("or press ENTER to add your station name to the currently playing song: ", (newResponse) => {
       if (newResponse === "") {
         newResponse = `${stationName}: ${nowPlaying.artist} - ${nowPlaying.title}`;
       } 
+      else if (newResponse === ".h" || newResponse === ".help") {
+        printHelp();
+        rl.close();
+        return;
+      }
       else if (newResponse === ".n") {
         newResponse = `Next up on ${stationName}: ${playingNext.artist} - ${playingNext.title}`;
       }
       else if (newResponse === ".t") {
         newResponse = `${stationName}: It is ` + curTime + ' on ' + curDate;
       }
-      else if (newResponse === ".skip") {
+      else if (newResponse === ".skip" || ".next") {
         axios({
           method: 'post',
           url: skipUrl,
@@ -69,10 +87,17 @@ axios.get(api)
           rl.close();
         })
         .catch(error => {
-          console.error('Error skipping track.', error.message);
-          if (error.response) {
-            console.error(error.response.status);
-            console.error(error.response.data);
+          if (error.response && error.response.status === 403) {
+            console.log();
+            console.error(`Access denied. ${error.response.status}`);
+            console.log('Check your API key and try again.')
+          }
+          else {
+            console.error('Error skipping track:', error.message);
+            if (error.response) {
+              console.error('Status:', error.response.status);
+              console.error('Details:', error.response.data);
+            }
           }
           rl.close();
         });
