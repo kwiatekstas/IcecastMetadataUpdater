@@ -7,9 +7,11 @@ const { format } = require('date-fns');
 const config = JSON.parse(fs.readFileSync(path.join(__dirname, 'config.json'), 'utf8'));
 const api = config.api;
 const icecastUrl = config.icecastUrl;
+const skipUrl = config.skipUrl;
 const icecastUsername = config.icecastAuth.username;
 const icecastPassword = config.icecastAuth.password;
 const icecastParams = config.icecastParams;
+const apiKey = config.apiKey;
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -49,6 +51,32 @@ axios.get(api)
       }
       else if (newResponse === ".t") {
         newResponse = `${stationName}: It is ` + curTime + ' on ' + curDate;
+      }
+      else if (newResponse === ".skip") {
+        axios({
+          method: 'post',
+          url: skipUrl,
+          headers: {
+            'X-API-Key': apiKey,
+            'accept': 'application/json'
+          },
+          data: ''
+        })
+        .then(response => {
+          console.log();
+          console.log('Track skipped.', response.status);
+          console.log(`Now playing: ${playingNext.artist} - ${playingNext.title}`);
+          rl.close();
+        })
+        .catch(error => {
+          console.error('Error skipping track.', error.message);
+          if (error.response) {
+            console.error(error.response.status);
+            console.error(error.response.data);
+          }
+          rl.close();
+        });
+        return;
       }
 
       icecastParams.song = newResponse;

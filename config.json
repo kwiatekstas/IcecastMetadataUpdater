@@ -11,5 +11,8 @@
         "mount": "/radio.mp3",
         "mode": "updinfo",
         "charset": "UTF-8"
-    }
+    },
+
+    "apiKey": "key",
+    "skipUrl": "http://localhost/api/station/{STATION_ID}/backend/skip"
 }
