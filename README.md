@@ -2,7 +2,7 @@
 node.js application for updating the metadata of a web radio station running on Icecast.
 
 ## Dependencies
-You'll need axios, date-fns and readline to run this. Install them with `pip install axios date-fns readline`.
+You'll need axios, date-fns and readline to run this. Install them with `npm install axios date-fns readline`.
 
 ## How to set up
 <em>Open the config.json file in a text editor.</em><br />
