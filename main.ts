@@ -31,7 +31,7 @@ function printHelp() {
 
 console.log("Connecting to", api, "- to change this, edit config.json");
 console.log();
-axios.get(api)
+axios.get(api, {timeout: 15000})
   .then((response) => {
     const apiResponse = response.data;
     console.log("Response from", api);
@@ -112,26 +112,46 @@ axios.get(api)
         params: icecastParams,
         headers: {
           'Authorization': authHeader
-        }
+        },
+        timeout: 15000
       })
       .then((response) => {
         if (response.status === 200) {
           console.log();
           console.log("Updated successfully.", response.status);
           console.log(newResponse);
-        } else {
-          console.log();
-          console.log("Could not update.", response.status);
-          console.log(response.data);
-        }
+        } 
       })
       .catch((error) => {
-        console.error("Could not update: ", error);
+          console.error("\nCould not update.");
+          if (error.response) {
+            console.error(`Server responded with status ${error.response.status} ${error.response.statusText}`);
+          } 
+          else if (error.code === 'ETIMEDOUT' || error.code === 'ECONNABORTED') {
+            console.error("Connection timed out. Check your network connection.");
+          } 
+          else if (error.code === 'ECONNREFUSED') {
+            console.error("Connection refused by server.");
+          }
+          else {
+            console.error(error.message);
+          }
       });
 
       rl.close();
     });
   })
-  .catch((error) => {
-    console.error(error);
-  });
+  .catch(error => {
+    console.log();
+    if (error.response && error.response.status === 403) {
+      console.error(`Access denied. (${error.response.status})`);
+      console.log('Check your API key and try again.')
+    }
+    else if (error.code === 'ETIMEDOUT' || error.code === 'ECONNABORTED') {
+      console.error("Connection timed out. Please check your network connection.");
+    }
+    else {
+      console.error('Error:', error.message);
+    }
+    rl.close();
+});
